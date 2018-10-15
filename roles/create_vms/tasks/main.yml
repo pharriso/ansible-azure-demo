@@ -1,0 +1,58 @@
+---
+
+- name: Create an availability set with default options
+  azure_rm_availabilityset:
+    name: ansible-availabilityset
+    resource_group: "{{ az_rg_name }}"
+
+- name: Create public ip
+  azure_rm_publicipaddress:
+    resource_group: "{{ az_rg_name }}"
+    allocation_method: Static
+    name: "{{ az_vm_name }}-public"
+  register: public_ip
+
+- name: Create security group 
+  azure_rm_securitygroup:
+    resource_group: "{{ az_rg_name }}"
+    name: ansible-demo-sg
+    rules:
+      - name: SSH
+        protocol: Tcp
+        destination_port_range: 22
+        access: Allow
+        priority: 101
+        direction: Inbound
+
+- name: Create VM nic
+  azure_rm_networkinterface:
+    resource_group: "{{ az_rg_name }}"
+    name: "{{ az_vm_name }}-nic"
+    virtual_network: "{{ az_network_name }}"
+    subnet: "{{ az_network_name }}-subnet"
+    security_group: ansible-demo-sg
+    ip_configurations:
+      - name: ipconfig1
+        primary: True
+        public_ip_address_name: "{{ az_vm_name }}-public"
+        load_balancer_backend_address_pools:
+        - name: backendaddrpool0
+          load_balancer: ansible-loadbalancer
+
+- name: Create VM's
+  azure_rm_virtualmachine:
+    resource_group: "{{ az_rg_name }}"
+    availability_set: ansible-availabilityset
+    name: "{{ az_vm_name }}"
+    vm_size: "{{ az_vm_size }}"
+    admin_username: "{{ az_vm_admin_user }}"
+    network_interfaces: "{{ az_vm_name }}-nic"
+    ssh_password_enabled: false
+    ssh_public_keys:
+      - path: /home/{{ az_vm_admin_user }}/.ssh/authorized_keys
+        key_data: "{{ az_vm_key }}"
+    image:
+      offer: RHEL
+      publisher: RedHat
+      sku: '7.3'
+      version: latest

@@ -1,0 +1,15 @@
+---
+
+- name: Create virtual network
+  azure_rm_virtualnetwork:
+    name: "{{ az_network_name }}"
+    resource_group: "{{ az_rg_name }}"
+    address_prefixes_cidr:
+      - "{{ az_network_cidr }}"
+
+- name: Create subnet
+  azure_rm_subnet:
+    name: "{{ az_network_name }}-subnet"
+    virtual_network_name: "{{ az_network_name }}"
+    resource_group: "{{ az_rg_name }}"
+    address_prefix_cidr: "{{ az_network_cidr }}"
