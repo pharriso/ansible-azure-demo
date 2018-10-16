@@ -17,11 +17,17 @@
     resource_group: "{{ az_rg_name }}"
     name: ansible-demo-sg
     rules:
-      - name: SSH
+      - name: ssh
         protocol: Tcp
         destination_port_range: 22
         access: Allow
         priority: 101
+        direction: Inbound
+      - name: web
+        protocol: Tcp
+        destination_port_range: 80
+        access: Allow
+        priority: 102
         direction: Inbound
 
 - name: Create VM nic
