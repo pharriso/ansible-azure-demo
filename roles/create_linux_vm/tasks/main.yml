@@ -29,6 +29,12 @@
         access: Allow
         priority: 102
         direction: Inbound
+      - name: winrm
+        protocol: Tcp
+        destination_port_range: 5985
+        access: Allow
+        priority: 103
+        direction: Inbound
 
 - name: Create VM nic
   azure_rm_networkinterface:
