@@ -1,40 +1,11 @@
 ---
 
-- name: Create an availability set with default options
-  azure_rm_availabilityset:
-    name: ansible-availabilityset
-    resource_group: "{{ az_rg_name }}"
-
 - name: Create public ip
   azure_rm_publicipaddress:
     resource_group: "{{ az_rg_name }}"
     allocation_method: Static
     name: "{{ az_vm_name }}-public"
   register: public_ip
-
-- name: Create security group 
-  azure_rm_securitygroup:
-    resource_group: "{{ az_rg_name }}"
-    name: ansible-demo-sg
-    rules:
-      - name: ssh
-        protocol: Tcp
-        destination_port_range: 22
-        access: Allow
-        priority: 101
-        direction: Inbound
-      - name: web
-        protocol: Tcp
-        destination_port_range: 80
-        access: Allow
-        priority: 102
-        direction: Inbound
-      - name: winrm
-        protocol: Tcp
-        destination_port_range: 5985
-        access: Allow
-        priority: 103
-        direction: Inbound
 
 - name: Create VM nic
   azure_rm_networkinterface:

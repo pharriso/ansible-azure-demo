@@ -26,3 +26,8 @@
         frontend_port: 80
         backend_port: 80
         probe: prob0
+
+- name: Create an availability set for backend VM's
+  azure_rm_availabilityset:
+    name: ansible-availabilityset
+    resource_group: "{{ az_rg_name }}"
