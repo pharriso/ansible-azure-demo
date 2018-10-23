@@ -37,3 +37,9 @@
         access: Allow
         priority: 103
         direction: Inbound
+      - name: rdp
+        protocol: Tcp
+        destination_port_range: 3389
+        access: Allow
+        priority: 104
+        direction: Inbound
