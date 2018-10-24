@@ -5,3 +5,9 @@
     path: HKLM:\SYSTEM\CurrentControlSet\Control\Terminal Server\WinStations\RDP-Tcp
     name: UserAuthentication
   register: current_version
+
+- name: Allow RDP connections without network level authentication
+  win_regedit:
+    path: HKLM:\SYSTEM\CurrentControlSet\Control\Terminal Server\WinStations\RDP-Tcp
+    name: UserAuthentication
+    data: 0
