@@ -1,0 +1,7 @@
+---
+
+- name: Install win_updates
+  win_updates:
+    category_names:
+      - DefinitionUpdates
+
