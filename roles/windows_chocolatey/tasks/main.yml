@@ -1,6 +1,6 @@
 ---
 
-- name: Install firefox
+- name: Install Apps
   win_chocolatey:
     name: "{{ item }}"
     state: present
