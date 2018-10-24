@@ -2,5 +2,6 @@
 
 - name: Get Reg Key Value for RDP
   win_reg_stat:
-    path: "HKLM:\SYSTEM\CurrentControlSet\Control\Terminal Server\WinStations\RDP-Tcp\UserAuthentication"
+    path: HKLM:\SYSTEM\CurrentControlSet\Control\Terminal Server\WinStations\RDP-Tcp
+    name: UserAuthentication
   register: current_version
