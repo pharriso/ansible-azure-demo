@@ -5,4 +5,8 @@
     category_names:
       - SecurityUpdates
       - CriticalUpdates
+      - Updates
+      - UpdateRollups
+      - Tools
+      - DefinitionUpdates
 
