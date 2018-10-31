@@ -1,0 +1,9 @@
+---
+
+- hosts: all
+  tasks:
+
+  - name: Install zsh
+    yum:
+      name: zsh
+      state: latest
