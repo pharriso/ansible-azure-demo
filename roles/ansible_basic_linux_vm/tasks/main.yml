@@ -35,3 +35,8 @@
       publisher: RedHat
       sku: '7.3'
       version: latest
+
+- name: Pass var to loadbalancer play
+  set_stats:
+    data: 
+      az_vm_name: "{{ az_vm_name }}"
