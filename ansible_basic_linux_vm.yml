@@ -1,0 +1,8 @@
+---
+
+- hosts: all
+  connection: local
+  gather_facts: false
+  roles:
+    - ansible_basic_linux_vm
+  
