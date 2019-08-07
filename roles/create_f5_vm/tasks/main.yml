@@ -24,6 +24,7 @@
     admin_username: '{{ az_vm_admin_user }}'
     admin_password: "{{ az_vm_admin_password }}"
     os_type: Linux
+    accept_terms: true
     image:
       offer: f5-big-ip-good
       publisher: f5-networks
