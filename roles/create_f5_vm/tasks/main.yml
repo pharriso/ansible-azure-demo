@@ -25,9 +25,9 @@
     admin_password: "{{ az_vm_admin_password }}"
     os_type: Linux
     image:
-      offer: f5-big-ip-hourly
+      offer: f5-big-ip-good
       publisher: f5-networks
-      sku: f5-bigip-virtual-edition-25m-better-hourly
+      sku: f5-bigip-virtual-edition-25m-good-hourly
       version: latest
     name: "{{ az_vm_name }}"
     resource_group: "{{ az_rg_name }}"
