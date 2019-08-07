@@ -29,6 +29,10 @@
       publisher: f5-networks
       sku: f5-bigip-virtual-edition-25m-good-hourly
       version: latest
+    plan:
+      name: f5-bigip-virtual-edition-25m-good-hourly
+      product: f5-big-ip-good
+      publisher: f5-networks
     name: "{{ az_vm_name }}"
     resource_group: "{{ az_rg_name }}"
     state: present
