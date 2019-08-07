@@ -1,0 +1,42 @@
+---
+
+- name: Create public ip
+  azure_rm_publicipaddress:
+    resource_group: "{{ az_rg_name }}"
+    allocation_method: Static
+    name: "{{ az_vm_name }}-public"
+  register: public_ip
+
+- name: Create VM nic
+  azure_rm_networkinterface:
+    resource_group: "{{ az_rg_name }}"
+    name: "{{ az_vm_name }}-nic"
+    virtual_network: "{{ az_network_name }}"
+    subnet: "{{ az_network_name }}-subnet"
+    security_group: ansible-demo-sg
+    ip_configurations:
+      - name: ipconfig1
+        primary: True
+        public_ip_address_name: "{{ az_vm_name }}-public"
+
+- name: provision new Azure virtual host
+  azure_rm_virtualmachine:
+    admin_username: '{{ az_vm_admin_user }}'
+    admin_password: "{{ az_vm_admin_password }}"
+    os_type: Linux
+    image:
+      offer: f5-big-ip-hourly
+      publisher: f5-networks
+      sku: f5-bigip-virtual-edition-25m-better-hourly
+      version: latest
+    name: "{{ az_vm_name }}"
+    resource_group: "{{ az_rg_name }}"
+    state: present
+    vm_size: "{{ az_vm_size }}"
+    network_interfaces: "{{ az_vm_name }}-nic"
+
+- name: wait for the management port to come online
+  wait_for:
+    port: 8443
+    host: '{{azure_vm.properties.networkProfile.networkInterfaces[0].properties.ipConfigurations[0].properties.publicIPAddress.properties.ipAddress}}'
+    timeout: 600
