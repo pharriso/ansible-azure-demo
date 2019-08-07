@@ -6,6 +6,11 @@
     - Web-Server
     - Web-Common-Http
     state: present
+  register: result
+  until: result is succeeded
+  retries: 30
+  delay: 10
+
 
 
 - name: default-website-index
