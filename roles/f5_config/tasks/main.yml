@@ -3,8 +3,8 @@
 - name: add nodes
   bigip_node:
     server: "{{ hostvars[item]['ansible_host'] }}"
-    user: "{{ ansible_user }}"
-    password: "{{ ansible_ssh_pass }}"
+    user: "{{ f5_user }}"
+    password: "{{ f5_password }}"
     server_port: "8443"
     host: "{{ ansible_host }}"
     name: "{{ ansible_host }}"
@@ -14,8 +14,8 @@
 - name: create pool
   bigip_pool:
     server: "{{ hostvars[item]['ansible_host'] }}"
-    user: "{{ ansible_user }}"
-    password: "{{ ansible_ssh_pass }}"
+    user: "{{ f5_user }}"
+    password: "{{ f5_password }}"
     server_port: "8443"
     name: "ansible_http_pool"
     lb_method: "round-robin"
@@ -28,8 +28,8 @@
 - name: add nodes to pool
   bigip_pool_member:
     server: "{{ hostvars[item]['ansible_host'] }}"
-    user: "{{ ansible_user }}"
-    password: "{{ ansible_ssh_pass }}"
+    user: "{{ f5_user }}"
+    password: "{{ f5_password }}"
     server_port: "8443"
     state: "present"
     name: "{{ ansible_host }}"
@@ -42,8 +42,8 @@
 - name: add virtual server
   bigip_virtual_server:
     server: "{{ hostvars[item]['ansible_host'] }}"
-    user: "{{ ansible_user }}"
-    password: "{{ ansible_ssh_pass }}"
+    user: "{{ f5_user }}"
+    password: "{{ f5_password }}"
     server_port: "8443"
     name: "ansible_virtual_server"
     destination: "{{ hostvars[item]['ec2_private_ip_address'] }}"
