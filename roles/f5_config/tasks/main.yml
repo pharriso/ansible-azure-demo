@@ -2,18 +2,18 @@
 
 - name: add nodes
   bigip_node:
-    server: "{{ hostvars[item]['inventory_hostname'] }}"
+    server: "{{ hostvars[item]['ansible_host'] }}"
     user: "{{ ansible_user }}"
     password: "{{ ansible_ssh_pass }}"
     server_port: "8443"
-    host: "{{ inventory_hostname }}"
-    name: "{{ inventory_hostname }}"
+    host: "{{ ansible_host }}"
+    name: "{{ ansible_host }}"
     validate_certs: "no"
   with_items: "{{ groups.type_f5 | first }}"
 
 - name: create pool
   bigip_pool:
-    server: "{{ hostvars[item]['inventory_hostname'] }}"
+    server: "{{ hostvars[item]['ansible_host'] }}"
     user: "{{ ansible_user }}"
     password: "{{ ansible_ssh_pass }}"
     server_port: "8443"
@@ -27,13 +27,13 @@
 
 - name: add nodes to pool
   bigip_pool_member:
-    server: "{{ hostvars[item]['inventory_hostname'] }}"
+    server: "{{ hostvars[item]['ansible_host'] }}"
     user: "{{ ansible_user }}"
     password: "{{ ansible_ssh_pass }}"
     server_port: "8443"
     state: "present"
-    name: "{{ inventory_hostname }}"
-    host: "{{ inventory_hostname }}"
+    name: "{{ ansible_host }}"
+    host: "{{ ansible_host }}"
     port: "80"
     pool: "ansible_http_pool"
     validate_certs: "no"
@@ -41,7 +41,7 @@
 
 - name: add virtual server
   bigip_virtual_server:
-    server: "{{ hostvars[item]['inventory_hostname'] }}"
+    server: "{{ hostvars[item]['ansible_host'] }}"
     user: "{{ ansible_user }}"
     password: "{{ ansible_ssh_pass }}"
     server_port: "8443"
