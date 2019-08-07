@@ -2,18 +2,18 @@
 
 - name: add nodes
   bigip_node:
-    server: "{{ hostvars[item]['ansible_host'] }}"
+    server: "{{ hostvars[item]['public_ip'] }}"
     user: "{{ f5_user }}"
     password: "{{ f5_password }}"
     server_port: "8443"
-    host: "{{ ansible_host }}"
-    name: "{{ ansible_host }}"
+    host: "{{ public_ip }}"
+    name: "{{ public_ip }}"
     validate_certs: "no"
   with_items: "{{ groups.type_f5 | first }}"
 
 - name: create pool
   bigip_pool:
-    server: "{{ hostvars[item]['ansible_host'] }}"
+    server: "{{ hostvars[item]['public_ip'] }}"
     user: "{{ f5_user }}"
     password: "{{ f5_password }}"
     server_port: "8443"
@@ -27,13 +27,13 @@
 
 - name: add nodes to pool
   bigip_pool_member:
-    server: "{{ hostvars[item]['ansible_host'] }}"
+    server: "{{ hostvars[item]['public_ip'] }}"
     user: "{{ f5_user }}"
     password: "{{ f5_password }}"
     server_port: "8443"
     state: "present"
-    name: "{{ ansible_host }}"
-    host: "{{ ansible_host }}"
+    name: "{{ public_ip }}"
+    host: "{{ public_ip }}"
     port: "80"
     pool: "ansible_http_pool"
     validate_certs: "no"
@@ -41,7 +41,7 @@
 
 - name: add virtual server
   bigip_virtual_server:
-    server: "{{ hostvars[item]['ansible_host'] }}"
+    server: "{{ hostvars[item]['public_ip'] }}"
     user: "{{ f5_user }}"
     password: "{{ f5_password }}"
     server_port: "8443"
