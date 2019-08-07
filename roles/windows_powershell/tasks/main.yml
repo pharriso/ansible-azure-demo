@@ -1,0 +1,9 @@
+---
+
+- name: copy powershell script across
+  win_copy:
+    src: reg_key.ps1
+    dest: C:\Temp\
+
+- name: execute script
+  win_shell: C:\Temp\reg_key.ps1
