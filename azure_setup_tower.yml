@@ -16,6 +16,7 @@
       - {"name": "azure windows config mgmt", "playbook": "windows_config_mgmt.yml", "credential": "azure windows", "ask_limit": "yes", "limit": "windows" }
       - {"name": "azure f5 config", "playbook": "f5_config.yml", "credential": "f5", "limit": "windows" }
       - {"name": "azure windows powershell", "playbook": "windows_powershell.yml", "credential": "azure windows", "limit": "windows" }
+      - {"name": "azure windows webserver", "playbook": "install_web_windows.yml", "credential": "azure windows", "limit": "windows" }
   tasks:
 
   - name: install servicenow python module
@@ -105,8 +106,8 @@
 #  - name: add snow credential to job template
 #    shell: tower-cli job_template associate_credential --job-template "cisco config mgmt" --credential snow
 
-#  - name: create tower workflow
-#    tower_workflow_template:
-#      name: network interface workflow
-#      schema: "{{ lookup('file', 'workflow.json') }}"
+  - name: create tower workflow
+    tower_workflow_template:
+      name: azure deploy app
+      schema: "{{ lookup('file', 'azure_schema') }}"
 
