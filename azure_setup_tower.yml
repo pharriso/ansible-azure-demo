@@ -4,7 +4,6 @@
   hosts: localhost
   connection: local
   vars:
-    tower_password: "{{ tower_password }}"
     tower_inventory: azure
     tower_org: Default
     tower_project: azure-playbooks
