@@ -1,6 +1,6 @@
 ---
 
-- name: setup tower host for cisco demo
+- name: setup tower host for azure demo
   hosts: localhost
   connection: local
   vars:
