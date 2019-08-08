@@ -14,7 +14,7 @@
       - {"name": "azure create resource group", "playbook": "create_resource_group.yml", "credential": "azure" }
       - {"name": "azure create f5 appliance", "playbook": "create_f5_vm.yml", "credential": "azure" }
       - {"name": "azure windows config mgmt", "playbook": "windows_config_mgmt.yml", "credential": "azure windows", "ask_limit": "yes", "limit": "windows" }
-      - {"name": "azure f5 config", "playbook": "f5_config.yml", "credential": "f5", "limit": "windows" }
+      - {"name": "azure f5 config", "playbook": "f5_config.yml", "credential": "f5" }
       - {"name": "azure windows powershell", "playbook": "windows_powershell.yml", "credential": "azure windows", "limit": "windows" }
       - {"name": "azure windows webserver", "playbook": "install_web_windows.yml", "credential": "azure windows", "limit": "windows" }
   tasks:
