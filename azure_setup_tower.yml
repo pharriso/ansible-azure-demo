@@ -95,7 +95,11 @@
       inventory: "{{ tower_inventory }}"
       project: "{{ tower_project }}"
       playbook: "{{ item.playbook }}"
-      credential: "{{ item.credential }}"
+      credential: azure windows
+    loop: "{{ tower_jobs }}"
+
+  - name: add snow credential to job template
+    shell: tower-cli job_template associate_credential --job-template {{ item.name }} --credential {{ item.credential }}
     loop: "{{ tower_jobs }}"
 
 #  - name: add snow credential to job template
