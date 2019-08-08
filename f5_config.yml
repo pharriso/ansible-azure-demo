@@ -1,5 +1,5 @@
 - name: configure f5
-  hosts: all
+  hosts: type_f5
   connection: local
   gather_facts: false
   roles:
