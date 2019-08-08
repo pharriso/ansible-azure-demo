@@ -3,5 +3,6 @@
 - hosts: all
   gather_facts: true
   roles:
-    - windows_dsc
+    - windows_dsc_groups
+    - windows_dsc_telnet
   
