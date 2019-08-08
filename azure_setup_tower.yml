@@ -72,15 +72,6 @@
       username: "{{ windows_user }}"
       kind: ssh
 
-  - name: create f5 credential
-    tower_credential:
-      tower_verify_ssl: false
-      username: admin
-      password: "{{ windows_password }}"
-      kind: ssh
-      organization: "{{ tower_org }}"
-      name: f5
-
   - name: create snow credential type
     shell: tower-cli credential_type create  --name snow --inputs @files/snow_cred_input  --injectors @files/snow_cred_inject --kind cloud
 
