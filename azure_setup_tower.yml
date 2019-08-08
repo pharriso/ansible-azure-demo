@@ -105,11 +105,13 @@
     loop: "{{ tower_jobs }}"
     when: item.credential != 'azure windows'
 
-#  - name: add snow credential to job template
-#    shell: tower-cli job_template associate_credential --job-template "cisco config mgmt" --credential snow
-
   - name: create tower workflow
     tower_workflow_template:
       name: azure deploy app
       schema: "{{ lookup('file', 'azure_schema') }}"
 
+  - name: create f5 snow member job template
+    shell: tower-cli job_template create --name "azure manage f5" --job-type run --inventory {{ tower_inventory }} --project {{ tower_project }} --playbook bigip_pool_member_snow.yml --survey-enabled true --survey-spec @files/job_survey  --ask-variables-on-launch true --credential f5
+
+  - name: add snow credential to job template
+    shell: tower-cli job_template associate_credential --job-template "azure manage f5" --credential snow
