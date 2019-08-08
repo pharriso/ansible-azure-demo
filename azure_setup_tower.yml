@@ -53,7 +53,7 @@
 
   - name: create azure inventory source in tower
     tower_inventory_source:
-      name: Azure source
+      name: azure source
       inventory: "{{ tower_inventory }}"
       credential: azure
       source: azure_rm
