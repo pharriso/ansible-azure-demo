@@ -101,26 +101,6 @@
       inventory: "{{ tower_inventory }}"
       project: "{{ tower_project }}"
       playbook: "{{ item.playbook }}"
-      credential: "{{ item.credential }}"
-      ask_limit: "{{ item.ask_limit | default('no') }}"
-    loop: "{{ tower_jobs }}"
-
-  - name: add credential to job template
-    shell: tower-cli job_template associate_credential --job-template "{{ item.name }}" --credential "{{ item.credential }}"
-    loop: "{{ tower_jobs }}"
-    when: credential
-
-#  - name: add snow credential to job template
-#    shell: tower-cli job_template associate_credential --job-template "cisco config mgmt" --credential snow
-
-
-  - name: create tower job templates
-    tower_job_template:
-      name: "{{ item.name }}"
-      job_type: "run"
-      inventory: "{{ tower_inventory }}"
-      project: "{{ tower_project }}"
-      playbook: "{{ item.playbook }}"
       credential: azure windows
       ask_limit: "{{ item.ask_limit | default('no') }}"
     loop: "{{ tower_jobs }}"
