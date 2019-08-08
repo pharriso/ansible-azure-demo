@@ -30,7 +30,7 @@
       block: |
         host: localhost
         username: admin
-        password: "{{ tower_password }}"
+        password: {{ tower_password }}
         verify_ssl: false
 
   - name: create azure credential
