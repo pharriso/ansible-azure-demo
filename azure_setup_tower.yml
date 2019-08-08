@@ -82,7 +82,7 @@
     shell: tower-cli credential_type create  --name f5 --inputs @files/f5_cred_input  --injectors @files/f5_cred_inject --kind cloud
 
   - name: create snow credential
-    shell: "tower-cli credential create --name f5 --organization Default --credential-type snow --inputs='{\"f5_user\": \"admin\", \"f5_password\": \"{{ windows_password }}\"}'"
+    shell: "tower-cli credential create --name f5 --organization Default --credential-type f5 --inputs='{\"f5_user\": \"admin\", \"f5_password\": \"{{ windows_password }}\"}'"
 
   - name: create tower job templates
     tower_job_template:
