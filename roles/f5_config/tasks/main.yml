@@ -13,7 +13,6 @@
   until: result is succeeded
   retries: 30
   delay: 10
-  delegate_to: localhost
 
 - name: create pool
   bigip_pool:
@@ -28,7 +27,6 @@
     validate_certs: "no"
   with_items: "{{ groups.type_f5 | first }}"
   run_once: true
-  delegate_to: localhost
 
 - name: add nodes to pool
   bigip_pool_member:
@@ -43,7 +41,6 @@
     pool: "ansible_http_pool"
     validate_certs: "no"
   with_items: "{{ groups.type_f5 | first }}"
-  delegate_to: localhost
 
 - name: add virtual server
   bigip_virtual_server:
@@ -61,4 +58,3 @@
     validate_certs: "no"
   with_items: "{{ groups.type_f5 | first }}"
   run_once: true
-  delegate_to: localhost
