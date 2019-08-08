@@ -14,7 +14,7 @@
       - {"name": "azure create resource group", "playbook": "create_resource_group.yml", "credential": "azure" }
       - {"name": "azure create f5 appliance", "playbook": "create_f5_vm.yml", "credential": "azure" }
       - {"name": "azure windows config mgmt", "playbook": "windows_config_mgmt.yml", "credential": "azure windows", "ask_limit": "yes" }
-      - {"name": "azure f5 config", "playbook": "f5_config.yml", "credential": "f5" }
+      - {"name": "azure f5 config", "playbook": "f5_config.yml", "credential": "f5", "limit": "windows" }
   tasks:
 
   - name: install servicenow python module
@@ -93,6 +93,7 @@
       playbook: "{{ item.playbook }}"
       credential: azure windows
       ask_limit: "{{ item.ask_limit | default('no') }}"
+      limit: "{{ item.limit | default('') }}"
     loop: "{{ tower_jobs }}"
 
   - name: add credential to job template
