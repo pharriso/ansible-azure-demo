@@ -38,7 +38,6 @@
       tower_verify_ssl: false
       name: azure
       organization: "{{ tower_org }}"
-      ssh_key_data: "{{ cisco_ssh_key }}"
       subscription: "{{ azure_subscription }}"
       client: "{{ azure_client_id }}"
       secret: "{{ azure_secret }}"
