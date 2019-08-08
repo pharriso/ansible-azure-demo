@@ -107,7 +107,7 @@
   - name: add credential to job template
     shell: tower-cli job_template associate_credential --job-template "{{ item.name }}" --credential "{{ item.credential }}"
     loop: "{{ tower_jobs }}"
-    when: credential != 'azure windows'
+    when: item.credential != 'azure windows'
 
 #  - name: add snow credential to job template
 #    shell: tower-cli job_template associate_credential --job-template "cisco config mgmt" --credential snow
