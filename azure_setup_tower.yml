@@ -1,0 +1,109 @@
+---
+
+- name: setup tower host for cisco demo
+  hosts: localhost
+  connection: local
+  vars:
+    tower_password: "{{ tower_password }}"
+    tower_inventory: azure
+    tower_org: Default
+    tower_project: azure-playbooks
+    tower_project_url:  https://github.com/pharriso/ansible-azure-demo.git
+    tower_jobs:
+      - {"name": "azure create windows vm", "playbook": "create_windows_vm.yml", "credential": "azure" }
+      - {"name": "azure create network", "playbook": "create_virtual_network.yml", "credential": "azure" }
+      - {"name": "azure create resource group", "playbook": "create_resource_group.yml", "credential": "azure" }
+      - {"name": "azure create f5 appliance", "playbook": "create_f5_vm.yml", "credential": "azure" }
+      - {"name": "azure windows config mgmt", "playbook": "windows_config_mgmt.yml", "credential": "azure windows" }
+      - {"name": "azure f5 config", "playbook": "f5_config.yml", "credential": "f5" }
+  tasks:
+
+  - name: install servicenow python module
+    pip:
+      name: pysnow
+    become: true
+
+  - name: template out tower-cli file
+    blockinfile:
+      path: /home/{{ ansible_user_id }}/.tower_cli.cfg
+      create: true
+      block: |
+        host: localhost
+        username: admin
+        password: "{{ tower_password }}"
+        verify_ssl: false
+
+  - name: create azure credential
+    tower_credential:
+      tower_verify_ssl: false
+      name: azure
+      organization: "{{ tower_org }}"
+      ssh_key_data: "{{ cisco_ssh_key }}"
+      subscription: "{{ azure_subscription }}"
+      client: "{{ azure_client_id }}"
+      secret: "{{ azure_secret }}"
+      tenant: "{{ azure_tenant }}"
+      kind: azure_rm
+
+  - name: create azure inventory in tower
+    tower_inventory:
+      name: "{{ tower_inventory }}"
+      organization: "{{ tower_org }}"
+      state: present
+
+  - name: create azure inventory source in tower
+    tower_inventory_source:
+      name: Azure source
+      inventory: "{{ tower_inventory }}"
+      credential: azure
+      source: azure_rm
+      update_on_launch: true
+      overwrite: true
+      state: present
+      validate_certs: false
+
+  - name: create tower project
+    shell: tower-cli project create --name {{ tower_project }} --organization {{ tower_org }} --scm-type git --scm-url {{ tower_project_url }} --scm-clean false --scm-delete-on-update false --scm-update-on-launch true --monitor
+
+  - name: Add windows Azure credential
+    tower_credential:
+      tower_verify_ssl: false
+      name: azure windows
+      organization: "{{ tower_org }}"
+      password: "{{ windows_password }}"
+      username: "{{ windows_user }}"
+      kind: ssh
+
+  - name: create f5 credential
+    tower_credential:
+      tower_verify_ssl: false
+      username: admin
+      password: "{{ windows_password }}"
+      kind: ssh
+      organization: "{{ tower_org }}"
+      name: f5
+
+  - name: create snow credential type
+    shell: tower-cli credential_type create  --name snow --inputs @files/snow_cred_input  --injectors @files/snow_cred_inject --kind cloud
+
+  - name: create snow credential
+    shell: "tower-cli credential create --name snow --organization Default --credential-type snow --inputs='{\"snow_user\": \"admin\", \"snow_password\": \"{{ snow_password }}\", \"snow_instance\": \"{{ snow_instance }}\"}'"
+
+  - name: create tower job templates
+    tower_job_template:
+      name: "{{ item.name }}"
+      job_type: "run"
+      inventory: "{{ tower_inventory }}"
+      project: "{{ tower_project }}"
+      playbook: "{{ item.playbook }}"
+      credential: "{{ item.credential }}"
+    loop: "{{ tower_jobs }}"
+
+#  - name: add snow credential to job template
+#    shell: tower-cli job_template associate_credential --job-template "cisco config mgmt" --credential snow
+
+#  - name: create tower workflow
+#    tower_workflow_template:
+#      name: network interface workflow
+#      schema: "{{ lookup('file', 'workflow.json') }}"
+

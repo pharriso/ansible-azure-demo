@@ -1,1 +1,8 @@
 admin_users: pharriso
+az_rg_name: ansible-azure
+az_location: uksouth
+az_network_name: ansible-network
+az_network_cidr: 192.168.0.0/24
+az_vm_size: Standard_B2ms
+az_vm_admin_user: pharriso
+az_vm_admin_password: RedhatAzure123
