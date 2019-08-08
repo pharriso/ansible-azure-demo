@@ -2,9 +2,11 @@
 
 - name: add nodes
   bigip_node:
+    server: "{{ hostvars[item]['public_ip'] }}"
     host: "{{ public_ip }}"
     name: "{{ public_ip }}"
     validate_certs: "no"
+  with_items: "{{ groups.type_f5 | first }}"
   register: result
   until: result is succeeded
   retries: 30
