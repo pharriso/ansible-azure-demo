@@ -2,13 +2,13 @@
 
 - name: add nodes
   bigip_node:
-    server: "{{ hostvars[item]['public_ip'] }}"
+    server: "{{ public_ip }}"
     user: "{{ f5_user }}"
     password: "{{ f5_password }}"
-    host: "{{ public_ip }}"
-    name: "{{ public_ip }}"
+    host: "{{ hostvars[item]['public_ip'] }}"
+    name: "{{ hostvars[item]['public_ip'] }}"
     validate_certs: "no"
-  with_items: "{{ groups.type_f5 | first }}"
+  with_items: "{{ groups.windows }}"
   register: result
   until: result is succeeded
   retries: 30
@@ -16,7 +16,7 @@
 
 - name: create pool
   bigip_pool:
-    server: "{{ hostvars[item]['public_ip'] }}"
+    server: "{{ public_ip }}"
     user: "{{ f5_user }}"
     password: "{{ f5_password }}"
     server_port: "8443"
@@ -25,36 +25,33 @@
     monitors: "/Common/http"
     monitor_type: "and_list"
     validate_certs: "no"
-  with_items: "{{ groups.type_f5 | first }}"
   run_once: true
 
 - name: add nodes to pool
   bigip_pool_member:
-    server: "{{ hostvars[item]['public_ip'] }}"
+    server: "{{ public_ip }}"
     user: "{{ f5_user }}"
     password: "{{ f5_password }}"
     server_port: "8443"
     state: "present"
-    name: "{{ public_ip }}"
-    host: "{{ public_ip }}"
+    host: "{{ hostvars[item]['public_ip'] }}"
+    name: "{{ hostvars[item]['public_ip'] }}"
     port: "80"
     pool: "ansible_http_pool"
     validate_certs: "no"
-  with_items: "{{ groups.type_f5 | first }}"
+  with_items: "{{ groups.windows }}"
 
 - name: add virtual server
   bigip_virtual_server:
-    server: "{{ hostvars[item]['public_ip'] }}"
+    server: "{{ public_ip }}"
     user: "{{ f5_user }}"
     password: "{{ f5_password }}"
     server_port: "8443"
     name: "ansible_virtual_server"
-    destination: "{{ hostvars[item]['private_ip'] }}"
+    destination: "{{ private_ip }}"
     port: "443"
     enabled_vlans: "all"
     all_profiles: ['http','clientssl','oneconnect']
     pool: "ansible_http_pool"
     snat: "Automap"
     validate_certs: "no"
-  with_items: "{{ groups.type_f5 | first }}"
-  run_once: true
