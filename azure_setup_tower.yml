@@ -9,7 +9,7 @@
     tower_project: azure-playbooks
     tower_project_url:  https://github.com/pharriso/ansible-azure-demo.git
     tower_jobs:
-      - {"name": "azure create windows vm", "playbook": "create_windows_vm.yml", "credential": "azure", "ask_extra_vars": "yes" }
+      - {"name": "azure create windows vm", "playbook": "create_windows_vm.yml", "credential": "azure", "ask_extra_vars": "yes", "concurrent_jobs_enabled": "yes" }
       - {"name": "azure create network", "playbook": "create_virtual_network.yml", "credential": "azure" }
       - {"name": "azure create resource group", "playbook": "create_resource_group.yml", "credential": "azure" }
       - {"name": "azure create f5 appliance", "playbook": "create_f5_vm.yml", "credential": "azure" }
@@ -97,6 +97,7 @@
       ask_limit: "{{ item.ask_limit | default('no') }}"
       limit: "{{ item.limit | default('') }}"
       ask_extra_vars: "{{ item.ask_extra_vars | default('no') }}"
+      concurrent_jobs_enabled: "{{ item.concurrent_jobs_enabled | default('no') }}"
     loop: "{{ tower_jobs }}"
 
   - name: add credential to job template
