@@ -7,7 +7,7 @@
     password: "{{ f5_password }}"
     server_port: "8443"
     host: "{{ hostvars[item]['public_ip'] }}"
-    name: "{{ hostvars[item]['public_ip'] }}"
+    name: "{{ hostvars[item]['inventory_hostname'] }}"
     validate_certs: "no"
   with_items: "{{ groups.windows }}"
   register: result
@@ -36,7 +36,7 @@
     server_port: "8443"
     state: "present"
     host: "{{ hostvars[item]['public_ip'] }}"
-    name: "{{ hostvars[item]['public_ip'] }}"
+    name: "{{ hostvars[item]['inventory_hostname'] }}"
     port: "80"
     pool: "ansible_http_pool"
     validate_certs: "no"
