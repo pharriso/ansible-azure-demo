@@ -28,7 +28,7 @@
     include_management_tools: yes
 
 - name: download dotnet core runtime
-  win_geturl: 
+  win_get_url: 
     url: https://dotnet.microsoft.com/download/thank-you/dotnet-runtime-2.2.6-windows-hosting-bundle-installer
     dest: C:\Temp
 
