@@ -32,3 +32,10 @@
     url: https://dotnet.microsoft.com/download/thank-you/dotnet-runtime-2.2.6-windows-hosting-bundle-installer
     dest: C:\Temp
 
+- name: install dotnet core runtime
+  win_feature:
+    name: NET-Framework-Core
+    source: C:\Temp\dotnet-runtime-2.2.6-windows-hosting-bundle-installer
+    state: present
+
+
