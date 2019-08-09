@@ -35,4 +35,5 @@
 - name: install dotnet core runtime
   win_package:
     path: C:\Temp\aspnetcore-runtime-2.2.6-win-x64.exe
+    product_id: '{077AD266-F907-45EF-BD2F-72D385471004}'
     state: present
