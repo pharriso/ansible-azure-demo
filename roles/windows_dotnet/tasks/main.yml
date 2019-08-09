@@ -29,13 +29,13 @@
 
 - name: download dotnet core runtime
   win_get_url: 
-    url: https://dotnet.microsoft.com/download/thank-you/dotnet-runtime-2.2.6-windows-hosting-bundle-installer
+    url: https://download.visualstudio.microsoft.com/download/pr/a021d9b2-8585-473c-a8d1-011717383ad7/819dbf76040767ed1a49d6c7c5681b8a/aspnetcore-runtime-2.2.6-win-x64.exe
     dest: C:\Temp
 
 - name: install dotnet core runtime
   win_feature:
     name: NET-Framework-Core
-    source: C:\Temp\dotnet-runtime-2.2.6-windows-hosting-bundle-installer
+    source: C:\Temp\aspnetcore-runtime-2.2.6-win-x64.exe
     state: present
 
 
