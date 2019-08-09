@@ -4,5 +4,5 @@
   win_dsc:
     resource_name: Service
     Name: "SNMP Trap"
-    State: Running
+    State: "Running"
     StartupType: "Manual"
