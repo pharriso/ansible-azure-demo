@@ -37,3 +37,23 @@
     path: C:\Temp\aspnetcore-runtime-2.2.6-win-x64.exe
     product_id: '{077AD266-F907-45EF-BD2F-72D385471004}'
     state: present
+
+- name: create iis website
+  win_iis_website:
+    name: webapp
+    state: started
+    port: 80
+    application_pool: webapp
+    physical_path: C:\webapp
+
+- name: manage webapp pool
+  win_iis_webapppool:
+    name: webapp
+    state: started
+    attributes:
+      managedRuntimeVersion: v4.0
+    arguments:
+      - /install
+      - /quiet
+
+
