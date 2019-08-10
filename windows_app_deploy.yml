@@ -8,6 +8,11 @@
       name: webapp
       state: stopped
 
+  - name: stop iis website
+    win_iis_website:
+      name: webapp
+      state: stopped
+
   - name: remove server from f5 pool 
     bigip_pool_member:
       server: "{{ public_ip }}"
@@ -21,11 +26,6 @@
       validate_certs: "no"
     delegate_to: "{{ groups.type_f5 | first }}"
     connection: local
-
-  - name: stop iis website
-    win_iis_website:
-      name: webapp
-      state: stopped
 
   roles:
     - windows_dotnet
