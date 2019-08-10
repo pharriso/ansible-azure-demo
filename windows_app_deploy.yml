@@ -15,7 +15,7 @@
 
   - name: remove server from f5 pool 
     bigip_pool_member:
-      server: "{{ hostvars[groups.type_f5 | first]['public_ip'] }}"
+      server: "{{ hostvars[groups.type_f5 | first].public_ip }}"
       user: "{{ f5_user }}"
       password: "{{ f5_password }}"
       server_port: "8443"
@@ -33,7 +33,7 @@
 
   post_tasks:
   - name: add server back to f5 pool 
-      server: "{{ hostvars[groups.type_f5 | first]['public_ip'] }}"
+      server: "{{ hostvars[groups.type_f5 | first].public_ip }}"
       user: "{{ f5_user }}"
       password: "{{ f5_password }}"
       server_port: "8443"
