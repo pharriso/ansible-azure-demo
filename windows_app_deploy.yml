@@ -14,7 +14,7 @@
       state: stopped
 
   - debug:
-      msg: public ip is {{ public_ip }} and address is {{ hostvars['inventory_hostname'] }} 
+      msg: public ip is {{ hostvars[groups.type_f5 | first]['public_ip'] }} and address is {{ inventory_hostname }} 
     delegate_to: "{{ groups.type_f5 | first }}"
     connection: local
 
