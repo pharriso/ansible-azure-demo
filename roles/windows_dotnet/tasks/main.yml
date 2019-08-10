@@ -1,10 +1,5 @@
 ---
 
-- name: remove default web site
-  win_iis_website:
-    name: "Default Web Site"
-    state: absent
-
 - name: create directory for dotnet website
   win_file:
     path: C:\webapp
@@ -26,6 +21,11 @@
     state: present
     include_sub_features: yes
     include_management_tools: yes
+
+- name: remove default web site
+  win_iis_website:
+    name: "Default Web Site"
+    state: absent
 
 - name: download dotnet core runtime
   win_get_url: 
