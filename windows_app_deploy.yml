@@ -24,7 +24,7 @@
       port: 80
       address: "{{ inventory_hostname }}"
       validate_certs: "no"
-    delegate_to: local
+    delegate_to: localhost
 
   roles:
     - windows_dotnet
