@@ -38,9 +38,8 @@
       password: "{{ f5_password }}"
       server_port: "8443"
       pool: http_pool
-      state: forced_offline
+      state: enabled
       port: 80
       address: "{{ inventory_hostname }}"
       validate_certs: "no"
-    delegate_to: "{{ groups.type_f5 | first }}"
-    connection: local
+    delegate_to: localhost
