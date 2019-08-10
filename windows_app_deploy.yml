@@ -15,7 +15,7 @@
 
   - name: remove server from f5 pool 
     bigip_pool_member:
-      server: "{{ hostvars[groups.type_f5 | first]['public_ip'] }}"
+      server: "{{ hostvars[item]['public_ip'] }}"
       user: "{{ f5_user }}"
       password: "{{ f5_password }}"
       server_port: "8443"
@@ -24,8 +24,8 @@
       port: 80
       address: "{{ inventory_hostname }}"
       validate_certs: "no"
-    delegate_to: "{{ groups.type_f5 | first }}"
-    connection: local
+    loop: "{{ groups.type_f5 | first }}"
+    delegate_to: local
 
   roles:
     - windows_dotnet
