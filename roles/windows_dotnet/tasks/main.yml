@@ -1,5 +1,10 @@
 ---
 
+- name: create temp directory
+  win_file:
+    path: C:\Temp
+    state: directory
+
 - name: create directory for dotnet website
   win_file:
     path: C:\webapp
