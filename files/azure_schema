@@ -12,28 +12,12 @@
           inventory_source: azure source
           success_nodes:
           - id: 23
-            job_template: azure windows webserver
+            job_template: azure windows dotnet
           - id: 86
             job_template: azure f5 config 
       - id: 18
         job_template: azure create windows vm
-        success_nodes:
-        - id: 22
-          inventory_source: azure source
-          success_nodes:
-          - id: 23
-            job_template: azure windows webserver
-          - id: 86
-            job_template: azure f5 config
       - id: 85
         job_template: azure create f5 appliance
-        success_nodes:
-        - id: 22
-          inventory_source: azure source
-          success_nodes:
-          - id: 23
-            job_template: azure windows webserver
-          - id: 86
-            job_template: azure f5 config
   id: 84
   project: azure-playbooks

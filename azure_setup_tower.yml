@@ -16,7 +16,8 @@
       - {"name": "azure windows config mgmt", "playbook": "windows_config_mgmt.yml", "credential": "azure windows", "ask_limit": "yes", "limit": "windows" }
       - {"name": "azure f5 config", "playbook": "f5_config.yml", "credential": "f5" }
       - {"name": "azure windows powershell", "playbook": "windows_powershell.yml", "credential": "azure windows", "limit": "windows" }
-      - {"name": "azure windows webserver", "playbook": "install_web_windows.yml", "credential": "azure windows", "limit": "windows" }
+      - {"name": "azure windows dotnet", "playbook": "windows_dotnet.yml", "credential": "azure windows", "limit": "windows" }
+      - {"name": "azure windows dotnet update app", "playbook": "windows_dotnet_update_app.yml", "credential": "f5", "limit": "windows" }
   tasks:
 
   - name: install servicenow python module
@@ -114,7 +115,10 @@
     shell: tower-cli job_template create --name "azure manage f5" --job-type run --inventory {{ tower_inventory }} --project {{ tower_project }} --playbook bigip_pool_member_snow.yml --survey-enabled true --survey-spec @files/job_survey  --ask-variables-on-launch true --credential "azure windows"
 
   - name: add f5 credential to job template
-    shell: tower-cli job_template associate_credential --job-template "azure manage f5" --credential f5
+    shell: tower-cli job_template associate_credential --job-template {{ item }} --credential f5
+    loop:
+      - "azure manage f5"
+      - "azure windows dotnet update app"
 
   - name: add snow credential to job template
     shell: tower-cli job_template associate_credential --job-template "azure manage f5" --credential snow
