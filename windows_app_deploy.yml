@@ -2,12 +2,12 @@
 
 - hosts: all
   pre_tasks:
-  - name: manage webapp pool
+  - name: stop webapp pool
     win_iis_webapppool:
       name: webapp
       state: stopped
 
-  - name: create iis website
+  - name: stop iis website
     win_iis_website:
       name: webapp
       state: stopped
