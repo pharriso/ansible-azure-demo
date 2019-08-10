@@ -13,6 +13,11 @@
       name: webapp
       state: stopped
 
+  - debug:
+      msg: public ip is {{ public_ip }} and address is {{ hostvars['inventory_hostname'] }} 
+    delegate_to: "{{ groups.type_f5 | first }}"
+    connection: local
+
   - name: remove server from f5 pool 
     bigip_pool_member:
       server: "{{ public_ip }}"
