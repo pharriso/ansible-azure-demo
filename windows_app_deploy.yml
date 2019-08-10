@@ -13,21 +13,16 @@
       name: webapp
       state: stopped
 
-  - debug:
-      msg: public ip is {{ hostvars[groups.type_f5 | first]['public_ip'] }} and address is {{ inventory_hostname }} 
-    delegate_to: "{{ groups.type_f5 | first }}"
-    connection: local
-
   - name: remove server from f5 pool 
     bigip_pool_member:
-      server: "{{ public_ip }}"
+      server: "{{ hostvars[groups.type_f5 | first]['public_ip'] }}"
       user: "{{ f5_user }}"
       password: "{{ f5_password }}"
       server_port: "8443"
       pool: http_pool
       state: forced_offline
       port: 80
-      address: "{{ hostvars['inventory_hostname'] }}"
+      address: "{{ inventory_hostname }}"
       validate_certs: "no"
     delegate_to: "{{ groups.type_f5 | first }}"
     connection: local
@@ -38,15 +33,14 @@
 
   post_tasks:
   - name: add server back to f5 pool 
-    bigip_pool_member:
-      server: "{{ public_ip }}"
+      server: "{{ hostvars[groups.type_f5 | first]['public_ip'] }}"
       user: "{{ f5_user }}"
       password: "{{ f5_password }}"
       server_port: "8443"
       pool: http_pool
-      state: enabled
+      state: forced_offline
       port: 80
-      address: "{{ hostvars['inventory_hostname'] }}"
+      address: "{{ inventory_hostname }}"
       validate_certs: "no"
     delegate_to: "{{ groups.type_f5 | first }}"
     connection: local
