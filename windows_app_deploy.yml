@@ -15,7 +15,7 @@
 
   - name: remove server from f5 pool 
     bigip_pool_member:
-      server: "{{ hostvars[item].public_ip }}"
+      server: "{{ hostvars[groups.type_f5 | first]['public_ip'] }}"
       user: "{{ f5_user }}"
       password: "{{ f5_password }}"
       server_port: "8443"
@@ -24,7 +24,7 @@
       port: 80
       address: "{{ inventory_hostname }}"
       validate_certs: "no"
-    loop: "{{ groups.type_f5 | first }}"
+    delegate_to: "{{ groups.type_f5 | first }}"
     connection: local
 
   roles:
@@ -33,7 +33,8 @@
 
   post_tasks:
   - name: add server back to f5 pool 
-      server: "{{ hostvars[item].public_ip }}"
+    bigip_pool_member:
+      server: "{{ hostvars[groups.type_f5 | first]['public_ip'] }}"
       user: "{{ f5_user }}"
       password: "{{ f5_password }}"
       server_port: "8443"
@@ -42,5 +43,5 @@
       port: 80
       address: "{{ inventory_hostname }}"
       validate_certs: "no"
-    loop: "{{ groups.type_f5 | first }}"
+    delegate_to: "{{ groups.type_f5 | first }}"
     connection: local
