@@ -1,0 +1,18 @@
+---
+
+- hosts: all
+  tasks:
+  - name: manage webapp pool
+    win_iis_webapppool:
+      name: webapp
+      state: stopped
+
+  - name: create iis website
+    win_iis_website:
+      name: webapp
+      state: stopped
+
+  roles:
+    - windows_dotnet
+
+
