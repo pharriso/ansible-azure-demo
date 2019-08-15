@@ -1,0 +1,13 @@
+---
+
+- hosts: all
+  tasks:
+    - name: create dir for dsc
+      win_file:
+        path: C:\dscgroupexample
+        state: directory
+
+        #   - name: copy mob file across
+
+    - name: execute dsc
+      win_shell: Start-DscConfiguration -path C:\Users\pharriso\dscgroupexample -computername {{ inventory_hostname }} -wait -verbose
