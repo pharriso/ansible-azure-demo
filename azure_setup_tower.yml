@@ -117,8 +117,8 @@
   - name: add f5 credential to job template
     shell: tower-cli job_template associate_credential --job-template "{{ item }}" --credential f5
     loop:
-      - "azure f5 config"
-      - "azure windows dotnet update app"
+      - azure f5 config
+      - azure windows dotnet update app
 
   - name: add snow credential to job template
-    shell: tower-cli job_template associate_credential --job-template azure f5 config --credential snow
+    shell: tower-cli job_template associate_credential --job-template "azure windows dotnet update app" --credential snow
