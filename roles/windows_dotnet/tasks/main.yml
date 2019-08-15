@@ -12,7 +12,7 @@
 
 - name: copy app across
   win_copy:
-    src: webapp.zip
+    src: webapp-{{ version }}.zip
     dest: C:\Temp\webapp-{{ version }}.zip
 
 - name: unzip file
