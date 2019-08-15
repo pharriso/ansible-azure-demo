@@ -10,4 +10,4 @@
         #   - name: copy mob file across
 
     - name: execute dsc
-      win_shell: Start-DscConfiguration -path C:\Users\pharriso\dscgroupexample -computername {{ inventory_hostname }} -wait -verbose
+      win_shell: Start-DscConfiguration -path C:\Users\pharriso\dscgroupexample\ -computername {{ inventory_hostname }} -wait -verbose
