@@ -13,11 +13,11 @@
 - name: copy app across
   win_copy:
     src: webapp.zip
-    dest: C:\Temp\webapp.zip
+    dest: C:\Temp\webapp-{{ version }}.zip
 
 - name: unzip file
   win_unzip:
-    src: C:\Temp\webapp.zip
+    src: C:\Temp\webapp-{{ version }}.zip
     dest: C:\webapp
 
 - name: install iis
