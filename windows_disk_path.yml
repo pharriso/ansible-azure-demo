@@ -3,7 +3,7 @@
 - hosts: all
   tasks:
   - name: create parition
-    win_partition:
+    win_format:
       drive_letter: G
       disk_number: 2
       new_label: Data
