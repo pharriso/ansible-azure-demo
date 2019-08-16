@@ -1,0 +1,11 @@
+---
+
+- hosts: all
+  tasks:
+  - name: create parition
+    win_partition:
+      drive_letter: G
+      disk_number: 2
+      label: Data
+      file_system: ntfs
+
