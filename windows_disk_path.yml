@@ -6,6 +6,7 @@
     win_partition:
       drive_letter: G
       disk_number: 2
+      partition_size: -1
 
   - name: format partition
     win_format:
