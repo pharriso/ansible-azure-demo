@@ -2,10 +2,14 @@
 
 - hosts: all
   tasks:
-  - name: create parition
-    win_format:
+  - name: create partition
+    win_partition:
       drive_letter: G
       disk_number: 2
+
+  - name: format partition
+    win_format:
+      drive_letter: G
       new_label: Data
       file_system: ntfs
 
