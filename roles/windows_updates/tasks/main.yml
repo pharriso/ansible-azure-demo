@@ -3,3 +3,5 @@
 - name: Install win_updates
   win_updates:
     reboot: yes
+    category_names:
+      - DefinitionUpdates
