@@ -2,11 +2,4 @@
 
 - name: Install win_updates
   win_updates:
-    category_names:
-      - SecurityUpdates
-      - CriticalUpdates
-      - Updates
-      - UpdateRollups
-      - Tools
-      - DefinitionUpdates
-
+    reboot: yes
