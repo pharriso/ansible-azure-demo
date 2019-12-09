@@ -6,4 +6,4 @@
     state: present
   with_items:
     - firefox
-    - putty
+    - putty.install
