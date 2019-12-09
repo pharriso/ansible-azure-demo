@@ -1,0 +1,10 @@
+---
+
+- hosts: localhost
+  connection: local
+  gather_facts: false
+  roles:
+    - create_resource_group
+    - create_virtual_network
+    - create_windows_vm
+  

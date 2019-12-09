@@ -1,0 +1,9 @@
+---
+
+- hosts: all
+  tasks:
+  - name: create domain
+    win_domain:
+      dns_domain_name: ansible.azure
+      safe_mode_password: RedhatAzure123
+

@@ -25,9 +25,9 @@
     admin_password: "{{ az_vm_admin_password }}"
     os_type: Windows
     image:
-      offer: WindowsServer
-      publisher: MicrosoftWindowsServer
-      sku: 2016-Datacenter
+      offer: "{{ offer }}"
+      publisher: "{{ publisher }}"
+      sku: "{{ sku }}"
       version: latest
     name: "{{ az_vm_name }}"
     resource_group: "{{ az_rg_name }}"
