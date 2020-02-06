@@ -1,0 +1,96 @@
+--- 
+
+- name: create azure vault
+  hosts: localhost
+  connection: local
+  gather_facts: false
+  vars:
+    az_rg_name: tower-workshop
+    az_location: uksouth
+    az_vault_name: tower-workshop-vault
+    vault_service_principal: tower-workshop
+    vault_secret_name: password
+    vault_secret_value: Redhat123
+  tasks:
+  - name: provision azure vault
+    block:
+    - name: create resource group
+      azure_rm_resourcegroup:
+        name: "{{ az_rg_name }}"
+        location: "{{ az_location }}"
+        state: present
+
+    - name: create service principal in azure-ad
+      shell: az ad sp create-for-rbac --name {{ vault_service_principal }} --query password
+      register: sp_password
+
+    - name: create application in azure-ad
+      shell: az ad app create --display-name {{ vault_service_principal }}
+
+    - name: find application object id
+      shell: az ad sp list --display-name {{ vault_service_principal }} --query '[].objectId' -o tsv
+      register: appobjid
+
+    - name: find application id
+      shell: az ad sp list --display-name {{ vault_service_principal }}   --query '[].appId' -o tsv
+      register: appid
+
+    - name: get current user
+      shell: az ad signed-in-user show --query 'objectId' -o tsv
+      register: currentuser
+
+    - name: get tenant id
+      shell: az account show --query tenantId -o tsv
+      register: tenantid
+
+    - name: create keyvault
+      azure_rm_keyvault:
+        resource_group: "{{ az_rg_name }}"
+        vault_name: "{{ az_vault_name }}"
+        vault_tenant: "{{ tenantid.stdout }}"
+        enabled_for_deployment: no
+        sku:
+          name: standard
+        access_policies:
+         -  object_id: "{{ appobjid.stdout }}"
+            secrets:
+              - get
+         -  object_id: "{{ currentuser.stdout }}"
+            secrets:
+              - get
+              - list
+              - set
+              - delete
+              - backup
+              - restore
+              - recover
+              - purge
+
+    - name: create a secret
+      shell: az keyvault secret set --name {{ vault_secret_name }} --value {{ vault_secret_value }} --vault-name {{ az_vault_name }}
+
+    - name: print vault details for Tower
+      debug:
+        msg: 
+          - vault url - https://{{ az_vault_name }}.vault.azure.net/
+          - client id - {{ appid.stdout }}
+          - secret - {{ sp_password.stdout }}
+          - tenant id - {{ tenantid.stdout }}
+    when: state == 'present'
+
+  - name: teardown vault
+    block:
+    - name: delete resource group
+      azure_rm_resourcegroup:
+        name: "{{ az_rg_name }}"
+        location: "{{ az_location }}"
+        state: absent
+        force_delete_nonempty: true
+
+    - name: find application object id
+      shell: az ad app list --display-name {{ vault_service_principal }}   --query '[].objectId' -o tsv
+      register: appobjid
+
+    - name: delete application in azure-ad
+      shell: az ad app delete --id {{ appobjid.stdout }}
+    when: state == "absent"
