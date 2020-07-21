@@ -33,7 +33,7 @@
     image:
       offer: RHEL
       publisher: RedHat
-      sku: '7.3'
+      sku: '8.2'
       version: latest
 
 - name: Pass var to loadbalancer play
