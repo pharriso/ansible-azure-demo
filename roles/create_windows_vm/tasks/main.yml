@@ -26,6 +26,7 @@
   azure_rm_virtualmachine:
     admin_username: '{{ az_vm_admin_user }}'
     admin_password: "{{ az_vm_admin_password }}"
+    availability_set: ansible-availabilityset
     os_type: Windows
     image:
       offer: "{{ offer }}"
