@@ -1,0 +1,21 @@
+---
+
+- hosts: localhost
+  connection: local
+  gather_facts: false
+  roles:
+    - create_linux_vm
+
+  tasks:
+  - name: add host to running playbook
+    add_host:
+      hostname: "{{ azure_vm.properties.networkProfile.networkInterfaces[0].properties.ipConfigurations[0].properties.publicIPAddress.properties.ipAddress }}"
+      groups: single_vm
+    delegate_to: localhost
+
+- hosts: single_vm
+  gather_facts: true
+  roles:
+  - snow_cmdb
+
+  
