@@ -16,7 +16,7 @@
       ram: "{{ ansible_memtotal_mb }}"
       os: "{{ ansible_system }} {{ ansible_distribution_file_search_string }}"
       os_version: "{{ ansible_distribution_version }}"
-      u_patch_window: "{{ patch_window }}"
+      u_patch_window: "{{ patch_window | default(omit) }}"
       cpu_type: Intel
       host_name: "{{ az_vm_name }}"
   delegate_to: localhost
