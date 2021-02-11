@@ -31,8 +31,4 @@
     ssh_public_keys:
       - path: /home/{{ az_vm_admin_user }}/.ssh/authorized_keys
         key_data: "{{ az_vm_key }}"
-    image:
-      offer: RHEL
-      publisher: RedHat
-      sku: '8.3'
-      version: latest
+    image: "{{ instance_info[os] }}"

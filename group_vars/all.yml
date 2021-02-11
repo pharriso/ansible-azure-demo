@@ -6,3 +6,10 @@ az_network_cidr: 192.168.0.0/24
 az_vm_size: Standard_B2ms
 az_vm_admin_user: pharriso
 az_vm_admin_password: RedhatAzure123
+instance_info:
+  rhel8:
+    offer: RHEL
+    publisher: RedHat
+    sku: '8.1'
+    version: latest
+
