@@ -18,9 +18,6 @@
       - name: ipconfig1
         primary: True
         public_ip_address_name: "{{ az_vm_name }}-public"
-          #        load_balancer_backend_address_pools:
-          #- name: backendaddrpool0
-          #load_balancer: ansible-loadbalancer
 
 - name: Create VM's
   azure_rm_virtualmachine:
