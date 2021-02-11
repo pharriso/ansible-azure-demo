@@ -32,3 +32,9 @@
       - path: /home/{{ az_vm_admin_user }}/.ssh/authorized_keys
         key_data: "{{ az_vm_key }}"
     image: "{{ instance_info[os] }}"
+
+- name: wait for connection
+  wait_for:
+    host: "{{ public_ip.state.ip_address }}"
+    port: "{{ port | default(22) }}"
+    delay: 5
