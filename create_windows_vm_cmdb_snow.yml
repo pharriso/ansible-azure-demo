@@ -1,0 +1,48 @@
+---
+
+- hosts: localhost
+  connection: local
+  gather_facts: false
+  roles:
+    - create_linux_vm
+
+  tasks:
+  - name: add host to running playbook
+    add_host:
+      hostname: "{{ azure_vm.properties.networkProfile.networkInterfaces[0].properties.ipConfigurations[0].properties.publicIPAddress.properties.ipAddress }}"
+      groups: single_vm
+    delegate_to: localhost
+
+- hosts: single_vm
+  gather_facts: true
+  roles:
+  - snow_cmdb
+  tasks:
+  - name: close servicenow request
+    snow_record:
+      username: "{{ snow_user }}"
+      password: "{{ snow_password }}"
+      instance: "{{ snow_instance }}"
+      state: present
+      table: sc_request
+      number: "{{ snow_request }}"
+      data:
+        work_notes: "Ansible Automation - provisioned vm with ip {{ inventory_hostname }}"
+        state: 3
+    delegate_to: localhost
+    become: false
+
+  - name: close servicenow request item
+    snow_record:
+      username: "{{ snow_user }}"
+      password: "{{ snow_password }}"
+      instance: "{{ snow_instance }}"
+      state: present
+      table: sc_req_item
+      number: "RITM{{ snow_request.split('REQ')[1] }}"
+      data:
+        work_notes: "Ansible Automation - provisioned vm with ip {{ inventory_hostname }}"
+        state: 3
+    delegate_to: localhost
+    become: false
+
